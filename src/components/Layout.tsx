@@ -14,6 +14,7 @@ import {
   Shield,
   Menu,
   X,
+  Code,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link, useLocation } from 'react-router-dom';
@@ -49,6 +50,7 @@ const navigation = [
   { name: 'Maintenance', href: '/maintenance', icon: Wrench },
   { name: 'Customers', href: '/customers', icon: Users },
   { name: 'Vendors', href: '/vendors', icon: Users },
+  { name: 'Test', href: '/test', icon: Code },
   { name: 'Reports', href: '/reports', icon: BarChart3 },
 ];
 

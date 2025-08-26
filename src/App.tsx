@@ -17,6 +17,7 @@ import Fleet from './pages/Fleet';
 import Customers from './pages/Customers';
 import Vendors from './pages/Vendors';
 import Maintenance from './pages/Maintenance';
+import Test from './pages/Test';
 
 const queryClient = new QueryClient();
 
@@ -106,6 +107,14 @@ const App = () => (
               element={
                 <ProtectedRoute>
                   <Maintenance />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/test"
+              element={
+                <ProtectedRoute>
+                  <Test />
                 </ProtectedRoute>
               }
             />
