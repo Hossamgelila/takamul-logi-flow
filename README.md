@@ -1,8 +1,22 @@
 # Welcome to your Lovable project
 
+[![CI/CD Pipeline](https://github.com/Hossamgelila/takamul-logi-flow/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/Hossamgelila/takamul-logi-flow/actions/workflows/ci-cd.yml)
+[![Auto Deploy](https://github.com/Hossamgelila/takamul-logi-flow/actions/workflows/auto-deploy.yml/badge.svg)](https://github.com/Hossamgelila/takamul-logi-flow/actions/workflows/auto-deploy.yml)
+
 ## Project info
 
 **URL**: https://lovable.dev/projects/264159ac-5e93-4ef8-84f6-df3ec30bc09c
+
+## 🚀 **NEW: Automatic Updates & CI/CD Pipeline**
+
+This project now features a complete automated development and deployment pipeline:
+
+- **🔧 Code Quality**: Automatic linting, formatting, and type checking
+- **🚀 Auto-Deploy**: Automatic deployment on every push
+- **🔒 Security**: Vulnerability scanning and security checks
+- **📊 Monitoring**: Real-time status badges and notifications
+
+See [SETUP.md](./SETUP.md) for complete documentation.
 
 ## How can I edit this code?
 
