@@ -11,10 +11,26 @@ import NewSupplierModal from '@/components/modals/NewSupplierModal';
 import NewTruckModal from '@/components/modals/NewTruckModal';
 import NewTrailerModal from '@/components/modals/NewTrailerModal';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Eye, Edit, FileText, TrendingUp, Truck, Activity, DollarSign, Gauge } from 'lucide-react';
+import {
+  Eye,
+  Edit,
+  FileText,
+  TrendingUp,
+  Truck,
+  Activity,
+  DollarSign,
+  Gauge,
+} from 'lucide-react';
 
 export default function Dashboard() {
   const [showNewInvoice, setShowNewInvoice] = useState(false);
@@ -24,7 +40,9 @@ export default function Dashboard() {
   const [showNewTruck, setShowNewTruck] = useState(false);
   const [showNewTrailer, setShowNewTrailer] = useState(false);
   const [dateRange, setDateRange] = useState({
-    from: new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString().split('T')[0],
+    from: new Date(new Date().getFullYear(), new Date().getMonth(), 1)
+      .toISOString()
+      .split('T')[0],
     to: new Date().toISOString().split('T')[0],
   });
   const [country, setCountry] = useState('all');
@@ -56,95 +74,172 @@ export default function Dashboard() {
   ];
 
   const recentInvoices = [
-    { id: 'INV-2024-001', customer: 'ABC Trading LLC', total: '15,250', currency: 'OMR', status: 'Paid', passThrough: '5,200' },
-    { id: 'INV-2024-002', customer: 'XYZ Logistics', total: '8,750', currency: 'AED', status: 'Issued', passThrough: '2,100' },
-    { id: 'INV-2024-003', customer: 'Gulf Transport', total: '22,000', currency: 'OMR', status: 'Overdue', passThrough: '8,500' },
-    { id: 'INV-2024-004', customer: 'Al Mashreq Shipping', total: '12,400', currency: 'OMR', status: 'Draft', passThrough: '3,900' },
-    { id: 'INV-2024-005', customer: 'Yemen Express', total: '6,800', currency: 'AED', status: 'Paid', passThrough: '1,200' },
+    {
+      id: 'INV-2024-001',
+      customer: 'ABC Trading LLC',
+      total: '15,250',
+      currency: 'OMR',
+      status: 'Paid',
+      passThrough: '5,200',
+    },
+    {
+      id: 'INV-2024-002',
+      customer: 'XYZ Logistics',
+      total: '8,750',
+      currency: 'AED',
+      status: 'Issued',
+      passThrough: '2,100',
+    },
+    {
+      id: 'INV-2024-003',
+      customer: 'Gulf Transport',
+      total: '22,000',
+      currency: 'OMR',
+      status: 'Overdue',
+      passThrough: '8,500',
+    },
+    {
+      id: 'INV-2024-004',
+      customer: 'Al Mashreq Shipping',
+      total: '12,400',
+      currency: 'OMR',
+      status: 'Draft',
+      passThrough: '3,900',
+    },
+    {
+      id: 'INV-2024-005',
+      customer: 'Yemen Express',
+      total: '6,800',
+      currency: 'AED',
+      status: 'Paid',
+      passThrough: '1,200',
+    },
   ];
 
   const recentExpenses = [
-    { id: 'EXP-001', vendor: 'Al Wadi Garage', category: 'Maintenance', amount: '2,450', currency: 'OMR', truck: 'T-101' },
-    { id: 'EXP-002', vendor: 'Shell Oman', category: 'Fuel', amount: '1,850', currency: 'OMR', truck: 'T-105' },
-    { id: 'EXP-003', vendor: 'Border Authority', category: 'Fees', amount: '450', currency: 'AED', truck: 'T-103' },
-    { id: 'EXP-004', vendor: 'Tire Center', category: 'Tires', amount: '3,200', currency: 'OMR', truck: 'T-107' },
-    { id: 'EXP-005', vendor: 'Customs Broker', category: 'Customs', amount: '890', currency: 'AED', truck: 'T-102' },
+    {
+      id: 'EXP-001',
+      vendor: 'Al Wadi Garage',
+      category: 'Maintenance',
+      amount: '2,450',
+      currency: 'OMR',
+      truck: 'T-101',
+    },
+    {
+      id: 'EXP-002',
+      vendor: 'Shell Oman',
+      category: 'Fuel',
+      amount: '1,850',
+      currency: 'OMR',
+      truck: 'T-105',
+    },
+    {
+      id: 'EXP-003',
+      vendor: 'Border Authority',
+      category: 'Fees',
+      amount: '450',
+      currency: 'AED',
+      truck: 'T-103',
+    },
+    {
+      id: 'EXP-004',
+      vendor: 'Tire Center',
+      category: 'Tires',
+      amount: '3,200',
+      currency: 'OMR',
+      truck: 'T-107',
+    },
+    {
+      id: 'EXP-005',
+      vendor: 'Customs Broker',
+      category: 'Customs',
+      amount: '890',
+      currency: 'AED',
+      truck: 'T-102',
+    },
   ];
 
-
   const truckPerformanceData = [
-    { 
-      truckId: 'T-101', 
-      plateNo: '12345-A', 
+    {
+      truckId: 'T-101',
+      plateNo: '12345-A',
       type: '6wheel',
-      revenue: 28500, 
-      expenses: 8200, 
-      netMargin: 20300, 
+      revenue: 28500,
+      expenses: 8200,
+      netMargin: 20300,
       utilization: 92,
       jobs: 8,
       fuelCost: 3200,
-      maintenanceCost: 2100
+      maintenanceCost: 2100,
     },
-    { 
-      truckId: 'T-105', 
-      plateNo: '67890-B', 
+    {
+      truckId: 'T-105',
+      plateNo: '67890-B',
       type: '4wheel',
-      revenue: 22000, 
-      expenses: 6800, 
-      netMargin: 15200, 
+      revenue: 22000,
+      expenses: 6800,
+      netMargin: 15200,
       utilization: 88,
       jobs: 6,
       fuelCost: 2800,
-      maintenanceCost: 1500
+      maintenanceCost: 1500,
     },
-    { 
-      truckId: 'T-103', 
-      plateNo: '54321-C', 
+    {
+      truckId: 'T-103',
+      plateNo: '54321-C',
       type: '6wheel',
-      revenue: 31200, 
-      expenses: 9500, 
-      netMargin: 21700, 
+      revenue: 31200,
+      expenses: 9500,
+      netMargin: 21700,
       utilization: 95,
       jobs: 9,
       fuelCost: 3800,
-      maintenanceCost: 2700
+      maintenanceCost: 2700,
     },
-    { 
-      truckId: 'T-107', 
-      plateNo: '98765-D', 
+    {
+      truckId: 'T-107',
+      plateNo: '98765-D',
       type: '4wheel',
-      revenue: 18500, 
-      expenses: 5200, 
-      netMargin: 13300, 
+      revenue: 18500,
+      expenses: 5200,
+      netMargin: 13300,
       utilization: 78,
       jobs: 5,
       fuelCost: 2100,
-      maintenanceCost: 980
+      maintenanceCost: 980,
     },
-    { 
-      truckId: 'T-102', 
-      plateNo: '11223-E', 
+    {
+      truckId: 'T-102',
+      plateNo: '11223-E',
       type: '6wheel',
-      revenue: 26800, 
-      expenses: 7600, 
-      netMargin: 19200, 
+      revenue: 26800,
+      expenses: 7600,
+      netMargin: 19200,
       utilization: 85,
       jobs: 7,
       fuelCost: 3000,
-      maintenanceCost: 1800
-    }
+      maintenanceCost: 1800,
+    },
   ];
 
   const getStatusBadgeVariant = (status: string) => {
     switch (status.toLowerCase()) {
-      case 'paid': return 'default';
-      case 'issued': return 'secondary';
-      case 'overdue': return 'destructive';
-      case 'draft': return 'outline';
-      case 'in-transit': return 'secondary';
-      case 'planned': return 'outline';
-      case 'delivered': return 'default';
-      default: return 'outline';
+      case 'paid':
+        return 'default';
+      case 'issued':
+        return 'secondary';
+      case 'overdue':
+        return 'destructive';
+      case 'draft':
+        return 'outline';
+      case 'in-transit':
+        return 'secondary';
+      case 'planned':
+        return 'outline';
+      case 'delivered':
+        return 'default';
+      default:
+        return 'outline';
     }
   };
 
@@ -154,7 +249,9 @@ export default function Dashboard() {
         {/* Page Header */}
         <div>
           <h1 className="text-3xl font-bold text-foreground">Dashboard</h1>
-          <p className="text-muted-foreground">Operations overview for Takamul Logistics</p>
+          <p className="text-muted-foreground">
+            Operations overview for Takamul Logistics
+          </p>
         </div>
 
         {/* Filters */}
@@ -168,8 +265,8 @@ export default function Dashboard() {
         />
 
         {/* Quick Actions */}
-          <QuickActions
-            onNewInvoice={() => setShowNewInvoice(true)}
+        <QuickActions
+          onNewInvoice={() => setShowNewInvoice(true)}
           onNewExpense={() => setShowNewExpense(true)}
           onNewCustomer={() => setShowNewCustomer(true)}
           onNewSupplier={() => setShowNewSupplier(true)}
@@ -248,11 +345,17 @@ export default function Dashboard() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="h-[300px] flex items-center justify-center bg-muted/50 rounded-lg">
+              <div className="flex h-[300px] items-center justify-center rounded-lg bg-muted/50">
                 <div className="text-center">
-                  <p className="text-muted-foreground">Revenue: 45,250 {currency}</p>
-                  <p className="text-muted-foreground">Expenses: 18,500 {currency}</p>
-                  <p className="text-sm text-muted-foreground mt-2">Chart view coming soon</p>
+                  <p className="text-muted-foreground">
+                    Revenue: 45,250 {currency}
+                  </p>
+                  <p className="text-muted-foreground">
+                    Expenses: 18,500 {currency}
+                  </p>
+                  <p className="mt-2 text-sm text-muted-foreground">
+                    Chart view coming soon
+                  </p>
                 </div>
               </div>
             </CardContent>
@@ -263,11 +366,17 @@ export default function Dashboard() {
               <CardTitle>Pass-Through vs Billable Revenue</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="h-[300px] flex items-center justify-center bg-muted/50 rounded-lg">
+              <div className="flex h-[300px] items-center justify-center rounded-lg bg-muted/50">
                 <div className="text-center">
-                  <p className="text-muted-foreground">Billable: 45,250 {currency} (70.7%)</p>
-                  <p className="text-muted-foreground">Pass-Through: 18,750 {currency} (29.3%)</p>
-                  <p className="text-sm text-muted-foreground mt-2">Chart view coming soon</p>
+                  <p className="text-muted-foreground">
+                    Billable: 45,250 {currency} (70.7%)
+                  </p>
+                  <p className="text-muted-foreground">
+                    Pass-Through: 18,750 {currency} (29.3%)
+                  </p>
+                  <p className="mt-2 text-sm text-muted-foreground">
+                    Chart view coming soon
+                  </p>
                 </div>
               </div>
             </CardContent>
@@ -297,13 +406,21 @@ export default function Dashboard() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {recentInvoices.map((invoice) => (
+                    {recentInvoices.map(invoice => (
                       <TableRow key={invoice.id}>
-                        <TableCell className="font-medium">{invoice.id}</TableCell>
-                        <TableCell className="text-sm">{invoice.customer}</TableCell>
-                        <TableCell>{invoice.total} {invoice.currency}</TableCell>
+                        <TableCell className="font-medium">
+                          {invoice.id}
+                        </TableCell>
+                        <TableCell className="text-sm">
+                          {invoice.customer}
+                        </TableCell>
                         <TableCell>
-                          <Badge variant={getStatusBadgeVariant(invoice.status)}>
+                          {invoice.total} {invoice.currency}
+                        </TableCell>
+                        <TableCell>
+                          <Badge
+                            variant={getStatusBadgeVariant(invoice.status)}
+                          >
                             {invoice.status}
                           </Badge>
                         </TableCell>
@@ -338,14 +455,20 @@ export default function Dashboard() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {recentExpenses.map((expense) => (
+                    {recentExpenses.map(expense => (
                       <TableRow key={expense.id}>
-                        <TableCell className="text-sm">{expense.vendor}</TableCell>
+                        <TableCell className="text-sm">
+                          {expense.vendor}
+                        </TableCell>
                         <TableCell>
                           <Badge variant="outline">{expense.category}</Badge>
                         </TableCell>
-                        <TableCell>{expense.amount} {expense.currency}</TableCell>
-                        <TableCell className="text-sm">{expense.truck}</TableCell>
+                        <TableCell>
+                          {expense.amount} {expense.currency}
+                        </TableCell>
+                        <TableCell className="text-sm">
+                          {expense.truck}
+                        </TableCell>
                         <TableCell>
                           <Button variant="ghost" size="sm">
                             <Edit className="h-4 w-4" />
@@ -358,7 +481,6 @@ export default function Dashboard() {
               </div>
             </CardContent>
           </Card>
-
         </div>
 
         {/* Truck Performance Section */}
@@ -388,50 +510,52 @@ export default function Dashboard() {
                   {truckPerformanceData
                     .sort((a, b) => b.netMargin - a.netMargin)
                     .slice(0, 5)
-                    .map((truck) => (
-                    <TableRow key={truck.truckId}>
-                      <TableCell>
-                        <div>
-                          <div className="font-medium">{truck.truckId}</div>
-                          <div className="text-sm text-muted-foreground">{truck.plateNo}</div>
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <Badge variant="outline">{truck.type}</Badge>
-                      </TableCell>
-                      <TableCell className="text-right">
-                        <div className="flex items-center justify-end gap-1">
-                          <DollarSign className="h-3 w-3 text-muted-foreground" />
-                          {truck.revenue.toLocaleString()} {currency}
-                        </div>
-                      </TableCell>
-                      <TableCell className="text-right">
-                        <div className="flex items-center justify-end gap-1">
-                          <Activity className="h-3 w-3 text-muted-foreground" />
-                          {truck.expenses.toLocaleString()} {currency}
-                        </div>
-                      </TableCell>
-                      <TableCell className="text-right">
-                        <div className="flex items-center justify-end gap-1 font-medium text-primary">
-                          {truck.netMargin.toLocaleString()} {currency}
-                        </div>
-                      </TableCell>
-                      <TableCell className="text-right">
-                        <div className="flex items-center justify-end gap-1">
-                          <Gauge className="h-3 w-3 text-muted-foreground" />
-                          {truck.utilization}%
-                        </div>
-                      </TableCell>
-                      <TableCell className="text-right">
-                        <Badge variant="secondary">{truck.jobs}</Badge>
-                      </TableCell>
-                      <TableCell>
-                        <Button variant="ghost" size="sm">
-                          <Eye className="h-4 w-4" />
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  ))}
+                    .map(truck => (
+                      <TableRow key={truck.truckId}>
+                        <TableCell>
+                          <div>
+                            <div className="font-medium">{truck.truckId}</div>
+                            <div className="text-sm text-muted-foreground">
+                              {truck.plateNo}
+                            </div>
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <Badge variant="outline">{truck.type}</Badge>
+                        </TableCell>
+                        <TableCell className="text-right">
+                          <div className="flex items-center justify-end gap-1">
+                            <DollarSign className="h-3 w-3 text-muted-foreground" />
+                            {truck.revenue.toLocaleString()} {currency}
+                          </div>
+                        </TableCell>
+                        <TableCell className="text-right">
+                          <div className="flex items-center justify-end gap-1">
+                            <Activity className="h-3 w-3 text-muted-foreground" />
+                            {truck.expenses.toLocaleString()} {currency}
+                          </div>
+                        </TableCell>
+                        <TableCell className="text-right">
+                          <div className="flex items-center justify-end gap-1 font-medium text-primary">
+                            {truck.netMargin.toLocaleString()} {currency}
+                          </div>
+                        </TableCell>
+                        <TableCell className="text-right">
+                          <div className="flex items-center justify-end gap-1">
+                            <Gauge className="h-3 w-3 text-muted-foreground" />
+                            {truck.utilization}%
+                          </div>
+                        </TableCell>
+                        <TableCell className="text-right">
+                          <Badge variant="secondary">{truck.jobs}</Badge>
+                        </TableCell>
+                        <TableCell>
+                          <Button variant="ghost" size="sm">
+                            <Eye className="h-4 w-4" />
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    ))}
                 </TableBody>
               </Table>
             </div>
@@ -441,10 +565,16 @@ export default function Dashboard() {
 
       {/* Modals */}
       <NewInvoiceModal open={showNewInvoice} onOpenChange={setShowNewInvoice} />
-      
+
       <NewExpenseModal open={showNewExpense} onOpenChange={setShowNewExpense} />
-      <NewCustomerModal open={showNewCustomer} onOpenChange={setShowNewCustomer} />
-      <NewSupplierModal open={showNewSupplier} onOpenChange={setShowNewSupplier} />
+      <NewCustomerModal
+        open={showNewCustomer}
+        onOpenChange={setShowNewCustomer}
+      />
+      <NewSupplierModal
+        open={showNewSupplier}
+        onOpenChange={setShowNewSupplier}
+      />
       <NewTruckModal open={showNewTruck} onOpenChange={setShowNewTruck} />
       <NewTrailerModal open={showNewTrailer} onOpenChange={setShowNewTrailer} />
     </Layout>

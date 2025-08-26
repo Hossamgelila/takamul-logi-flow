@@ -1,9 +1,20 @@
 import { useState } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
@@ -13,10 +24,13 @@ interface NewSupplierModalProps {
   onOpenChange: (open: boolean) => void;
 }
 
-export default function NewSupplierModal({ open, onOpenChange }: NewSupplierModalProps) {
+export default function NewSupplierModal({
+  open,
+  onOpenChange,
+}: NewSupplierModalProps) {
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
-  
+
   const [formData, setFormData] = useState({
     name: '',
     country: 'OM',
@@ -31,9 +45,9 @@ export default function NewSupplierModal({ open, onOpenChange }: NewSupplierModa
     e.preventDefault();
     if (!formData.name) {
       toast({
-        title: "Error",
-        description: "Supplier name is required",
-        variant: "destructive",
+        title: 'Error',
+        description: 'Supplier name is required',
+        variant: 'destructive',
       });
       return;
     }
@@ -50,20 +64,18 @@ export default function NewSupplierModal({ open, onOpenChange }: NewSupplierModa
         address: formData.address,
       };
 
-      const { error } = await supabase
-        .from('vendors')
-        .insert(vendorData);
+      const { error } = await supabase.from('vendors').insert(vendorData);
 
       if (error) {
         console.error('Vendor creation error:', error);
         throw error;
       }
-      
+
       toast({
-        title: "Success",
-        description: "Supplier created successfully",
+        title: 'Success',
+        description: 'Supplier created successfully',
       });
-      
+
       onOpenChange(false);
       setFormData({
         name: '',
@@ -77,9 +89,9 @@ export default function NewSupplierModal({ open, onOpenChange }: NewSupplierModa
     } catch (error) {
       console.error('Error creating supplier:', error);
       toast({
-        title: "Error",
-        description: "Failed to create supplier. Please try again.",
-        variant: "destructive",
+        title: 'Error',
+        description: 'Failed to create supplier. Please try again.',
+        variant: 'destructive',
       });
     } finally {
       setLoading(false);
@@ -92,14 +104,14 @@ export default function NewSupplierModal({ open, onOpenChange }: NewSupplierModa
         <DialogHeader>
           <DialogTitle>Add New Supplier</DialogTitle>
         </DialogHeader>
-        
+
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="name">Supplier Name *</Label>
             <Input
               id="name"
               value={formData.name}
-              onChange={(e) => setFormData({...formData, name: e.target.value})}
+              onChange={e => setFormData({ ...formData, name: e.target.value })}
               placeholder="Company Name LLC"
               required
             />
@@ -108,9 +120,11 @@ export default function NewSupplierModal({ open, onOpenChange }: NewSupplierModa
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="country">Country</Label>
-              <Select 
-                value={formData.country} 
-                onValueChange={(value) => setFormData({...formData, country: value})}
+              <Select
+                value={formData.country}
+                onValueChange={value =>
+                  setFormData({ ...formData, country: value })
+                }
               >
                 <SelectTrigger>
                   <SelectValue />
@@ -121,12 +135,14 @@ export default function NewSupplierModal({ open, onOpenChange }: NewSupplierModa
                 </SelectContent>
               </Select>
             </div>
-            
+
             <div className="space-y-2">
               <Label htmlFor="type">Type</Label>
-              <Select 
-                value={formData.type} 
-                onValueChange={(value) => setFormData({...formData, type: value})}
+              <Select
+                value={formData.type}
+                onValueChange={value =>
+                  setFormData({ ...formData, type: value })
+                }
               >
                 <SelectTrigger>
                   <SelectValue />
@@ -147,7 +163,9 @@ export default function NewSupplierModal({ open, onOpenChange }: NewSupplierModa
             <Input
               id="contactPerson"
               value={formData.contactPerson}
-              onChange={(e) => setFormData({...formData, contactPerson: e.target.value})}
+              onChange={e =>
+                setFormData({ ...formData, contactPerson: e.target.value })
+              }
               placeholder="John Doe"
             />
           </div>
@@ -158,18 +176,22 @@ export default function NewSupplierModal({ open, onOpenChange }: NewSupplierModa
               <Input
                 id="phone"
                 value={formData.phone}
-                onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                onChange={e =>
+                  setFormData({ ...formData, phone: e.target.value })
+                }
                 placeholder="+968 9123 4567"
               />
             </div>
-            
+
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input
                 id="email"
                 type="email"
                 value={formData.email}
-                onChange={(e) => setFormData({...formData, email: e.target.value})}
+                onChange={e =>
+                  setFormData({ ...formData, email: e.target.value })
+                }
                 placeholder="contact@company.com"
               />
             </div>
@@ -180,14 +202,20 @@ export default function NewSupplierModal({ open, onOpenChange }: NewSupplierModa
             <Textarea
               id="address"
               value={formData.address}
-              onChange={(e) => setFormData({...formData, address: e.target.value})}
+              onChange={e =>
+                setFormData({ ...formData, address: e.target.value })
+              }
               placeholder="Full address including city and postal code"
               rows={3}
             />
           </div>
 
           <div className="flex justify-end gap-2 pt-4">
-            <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => onOpenChange(false)}
+            >
               Cancel
             </Button>
             <Button type="submit" disabled={loading}>

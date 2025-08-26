@@ -11,11 +11,15 @@ export default function Profile() {
   if (!user) {
     return (
       <Layout>
-        <div className="flex items-center justify-center min-h-[400px]">
+        <div className="flex min-h-[400px] items-center justify-center">
           <div className="text-center">
-            <User className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
-            <h2 className="text-2xl font-bold text-foreground mb-2">Not Logged In</h2>
-            <p className="text-muted-foreground">Please log in to view your profile.</p>
+            <User className="mx-auto mb-4 h-16 w-16 text-muted-foreground" />
+            <h2 className="mb-2 text-2xl font-bold text-foreground">
+              Not Logged In
+            </h2>
+            <p className="text-muted-foreground">
+              Please log in to view your profile.
+            </p>
           </div>
         </div>
       </Layout>
@@ -28,11 +32,13 @@ export default function Profile() {
         {/* Page Header */}
         <div>
           <h1 className="text-3xl font-bold text-foreground">Profile</h1>
-          <p className="text-muted-foreground">Manage your account information</p>
+          <p className="text-muted-foreground">
+            Manage your account information
+          </p>
         </div>
 
         {/* Profile Information */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -43,10 +49,16 @@ export default function Profile() {
             <CardContent className="space-y-4">
               <div className="flex items-center gap-4">
                 <Avatar className="h-16 w-16">
-                  <AvatarImage src={profile?.avatar_url || ''} alt={profile?.username || user.email || ''} />
+                  <AvatarImage
+                    src={profile?.avatar_url || ''}
+                    alt={profile?.username || user.email || ''}
+                  />
                   <AvatarFallback className="text-lg">
-                    {profile?.username ? profile.username.charAt(0).toUpperCase() : 
-                     user.email ? user.email.charAt(0).toUpperCase() : 'U'}
+                    {profile?.username
+                      ? profile.username.charAt(0).toUpperCase()
+                      : user.email
+                        ? user.email.charAt(0).toUpperCase()
+                        : 'U'}
                   </AvatarFallback>
                 </Avatar>
                 <div>
@@ -56,24 +68,28 @@ export default function Profile() {
                   <p className="text-muted-foreground">{user.email}</p>
                 </div>
               </div>
-              
+
               <div className="space-y-3">
                 <div className="flex items-center gap-2">
                   <Mail className="h-4 w-4 text-muted-foreground" />
                   <span className="text-sm">Email: {user.email}</span>
                 </div>
-                
+
                 <div className="flex items-center gap-2">
                   <Calendar className="h-4 w-4 text-muted-foreground" />
                   <span className="text-sm">
-                    Member since: {new Date(user.created_at).toLocaleDateString()}
+                    Member since:{' '}
+                    {new Date(user.created_at).toLocaleDateString()}
                   </span>
                 </div>
-                
+
                 <div className="flex items-center gap-2">
                   <User className="h-4 w-4 text-muted-foreground" />
                   <span className="text-sm">
-                    Last sign in: {user.last_sign_in_at ? new Date(user.last_sign_in_at).toLocaleDateString() : 'Never'}
+                    Last sign in:{' '}
+                    {user.last_sign_in_at
+                      ? new Date(user.last_sign_in_at).toLocaleDateString()
+                      : 'Never'}
                   </span>
                 </div>
               </div>
@@ -92,27 +108,30 @@ export default function Profile() {
                 <p className="text-sm text-muted-foreground">
                   Your current roles and access levels:
                 </p>
-                
+
                 <div className="flex flex-wrap gap-2">
                   {roles.length > 0 ? (
-                    roles.map((userRole) => (
-                      <Badge 
-                        key={userRole.id} 
+                    roles.map(userRole => (
+                      <Badge
+                        key={userRole.id}
                         variant={
-                          userRole.role === 'admin' ? 'destructive' : 
-                          userRole.role === 'moderator' ? 'secondary' : 
-                          'outline'
+                          userRole.role === 'admin'
+                            ? 'destructive'
+                            : userRole.role === 'moderator'
+                              ? 'secondary'
+                              : 'outline'
                         }
                       >
-                        {userRole.role.charAt(0).toUpperCase() + userRole.role.slice(1)}
+                        {userRole.role.charAt(0).toUpperCase() +
+                          userRole.role.slice(1)}
                       </Badge>
                     ))
                   ) : (
                     <Badge variant="outline">User</Badge>
                   )}
                 </div>
-                
-                <div className="text-xs text-muted-foreground space-y-1">
+
+                <div className="space-y-1 text-xs text-muted-foreground">
                   {roles.some(r => r.role === 'admin') && (
                     <p>✓ Full system administration access</p>
                   )}

@@ -1,6 +1,14 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Plus, FileText, Truck, Users, Wrench, Package, Shield } from 'lucide-react';
+import {
+  Plus,
+  FileText,
+  Truck,
+  Users,
+  Wrench,
+  Package,
+  Shield,
+} from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
@@ -25,12 +33,42 @@ export default function QuickActions({
   const navigate = useNavigate();
 
   const actions = [
-    { label: 'New Invoice', icon: FileText, onClick: onNewInvoice, variant: 'default' as const },
-    { label: 'New Expense', icon: Wrench, onClick: onNewExpense, variant: 'outline' as const },
-    { label: 'New Customer', icon: Users, onClick: onNewCustomer, variant: 'outline' as const },
-    { label: 'New Supplier', icon: Users, onClick: onNewSupplier, variant: 'outline' as const },
-    { label: 'New Truck', icon: Truck, onClick: onNewTruck, variant: 'outline' as const },
-    { label: 'New Trailer', icon: Package, onClick: onNewTrailer, variant: 'outline' as const },
+    {
+      label: 'New Invoice',
+      icon: FileText,
+      onClick: onNewInvoice,
+      variant: 'default' as const,
+    },
+    {
+      label: 'New Expense',
+      icon: Wrench,
+      onClick: onNewExpense,
+      variant: 'outline' as const,
+    },
+    {
+      label: 'New Customer',
+      icon: Users,
+      onClick: onNewCustomer,
+      variant: 'outline' as const,
+    },
+    {
+      label: 'New Supplier',
+      icon: Users,
+      onClick: onNewSupplier,
+      variant: 'outline' as const,
+    },
+    {
+      label: 'New Truck',
+      icon: Truck,
+      onClick: onNewTruck,
+      variant: 'outline' as const,
+    },
+    {
+      label: 'New Trailer',
+      icon: Package,
+      onClick: onNewTrailer,
+      variant: 'outline' as const,
+    },
   ];
 
   // Add User Management for admins
@@ -39,7 +77,7 @@ export default function QuickActions({
       label: 'User Management',
       icon: Shield,
       onClick: () => navigate('/user-management'),
-      variant: 'outline' as const
+      variant: 'outline' as const,
     });
   }
 
@@ -52,8 +90,8 @@ export default function QuickActions({
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
-          {actions.map((action) => {
+        <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-6">
+          {actions.map(action => {
             const Icon = action.icon;
             return (
               <Button
@@ -61,10 +99,10 @@ export default function QuickActions({
                 variant={action.variant}
                 size="sm"
                 onClick={action.onClick}
-                className="flex flex-col items-center gap-2 h-20 p-2"
+                className="flex h-20 flex-col items-center gap-2 p-2"
               >
                 <Icon className="h-5 w-5" />
-                <span className="text-xs text-center leading-tight">
+                <span className="text-center text-xs leading-tight">
                   {action.label}
                 </span>
               </Button>

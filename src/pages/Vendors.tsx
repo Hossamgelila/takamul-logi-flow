@@ -3,11 +3,43 @@ import Layout from '@/components/Layout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
-import { Printer, Search, Filter, Plus, Eye, Edit, Trash2, Building } from 'lucide-react';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
+import {
+  Printer,
+  Search,
+  Filter,
+  Plus,
+  Eye,
+  Edit,
+  Trash2,
+  Building,
+} from 'lucide-react';
 import NewSupplierModal from '@/components/modals/NewSupplierModal';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
@@ -44,9 +76,9 @@ export default function Vendors() {
 
       if (error) {
         toast({
-          title: "Error fetching vendors",
+          title: 'Error fetching vendors',
           description: error.message,
-          variant: "destructive",
+          variant: 'destructive',
         });
         return;
       }
@@ -68,9 +100,9 @@ export default function Vendors() {
     } catch (error) {
       console.error('Error fetching vendors:', error);
       toast({
-        title: "Error",
-        description: "Failed to load vendors",
-        variant: "destructive",
+        title: 'Error',
+        description: 'Failed to load vendors',
+        variant: 'destructive',
       });
     } finally {
       setLoading(false);
@@ -81,7 +113,7 @@ export default function Vendors() {
   const handleClearAllVendors = async () => {
     try {
       setLoading(true);
-      
+
       // Soft delete all vendors
       const { error } = await supabase
         .from('vendors')
@@ -94,17 +126,17 @@ export default function Vendors() {
 
       // Clear the local state
       setVendors([]);
-      
+
       toast({
-        title: "Success",
-        description: "All vendors have been cleared successfully",
+        title: 'Success',
+        description: 'All vendors have been cleared successfully',
       });
     } catch (error) {
       console.error('Error clearing vendors:', error);
       toast({
-        title: "Error",
-        description: "Failed to clear vendors. Please try again.",
-        variant: "destructive",
+        title: 'Error',
+        description: 'Failed to clear vendors. Please try again.',
+        variant: 'destructive',
       });
     } finally {
       setLoading(false);
@@ -123,9 +155,9 @@ export default function Vendors() {
         {
           event: '*',
           schema: 'public',
-          table: 'vendors'
+          table: 'vendors',
         },
-        (payload) => {
+        payload => {
           console.log('Vendor change detected:', payload);
           fetchVendors(); // Refetch data when changes occur
         }
@@ -138,19 +170,21 @@ export default function Vendors() {
   }, []);
 
   const filteredVendors = vendors.filter(vendor => {
-    const matchesSearch = vendor.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         vendor.contactPerson.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         vendor.email.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesSearch =
+      vendor.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      vendor.contactPerson.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      vendor.email.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesType = typeFilter === 'all' || vendor.type === typeFilter;
-    const matchesCountry = countryFilter === 'all' || vendor.country === countryFilter;
-    
+    const matchesCountry =
+      countryFilter === 'all' || vendor.country === countryFilter;
+
     return matchesSearch && matchesType && matchesCountry;
   });
 
   const getCountryName = (code: string) => {
     const countries: { [key: string]: string } = {
-      'OM': 'Oman',
-      'YE': 'Yemen'
+      OM: 'Oman',
+      YE: 'Yemen',
     };
     return countries[code] || code;
   };
@@ -163,20 +197,28 @@ export default function Vendors() {
     <Layout>
       <div className="content-spacing">
         {/* Header */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 print:hidden">
+        <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center print:hidden">
           <div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-foreground">All Vendors</h1>
-            <p className="text-muted-foreground">Manage and track all suppliers and vendors</p>
+            <h1 className="text-2xl font-bold text-foreground sm:text-3xl">
+              All Vendors
+            </h1>
+            <p className="text-muted-foreground">
+              Manage and track all suppliers and vendors
+            </p>
           </div>
           <div className="flex gap-2">
             <Button onClick={handlePrint} variant="outline" size="sm">
-              <Printer className="h-4 w-4 mr-2" />
+              <Printer className="mr-2 h-4 w-4" />
               Print A4
             </Button>
             <AlertDialog>
               <AlertDialogTrigger asChild>
-                <Button variant="destructive" size="sm" disabled={vendors.length === 0}>
-                  <Trash2 className="h-4 w-4 mr-2" />
+                <Button
+                  variant="destructive"
+                  size="sm"
+                  disabled={vendors.length === 0}
+                >
+                  <Trash2 className="mr-2 h-4 w-4" />
                   Clear All
                 </Button>
               </AlertDialogTrigger>
@@ -184,13 +226,13 @@ export default function Vendors() {
                 <AlertDialogHeader>
                   <AlertDialogTitle>Clear All Vendors</AlertDialogTitle>
                   <AlertDialogDescription>
-                    This action will permanently delete all vendors. This cannot be undone.
-                    Are you sure you want to continue?
+                    This action will permanently delete all vendors. This cannot
+                    be undone. Are you sure you want to continue?
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                   <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction 
+                  <AlertDialogAction
                     onClick={handleClearAllVendors}
                     className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
                   >
@@ -200,7 +242,7 @@ export default function Vendors() {
               </AlertDialogContent>
             </AlertDialog>
             <Button onClick={() => setShowNewSupplier(true)} size="sm">
-              <Plus className="h-4 w-4 mr-2" />
+              <Plus className="mr-2 h-4 w-4" />
               New Vendor
             </Button>
           </div>
@@ -219,16 +261,16 @@ export default function Vendors() {
               <div className="space-y-2">
                 <label className="text-sm font-medium">Search</label>
                 <div className="relative">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-muted-foreground" />
                   <Input
                     placeholder="Search by name, contact person, or email..."
                     value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
+                    onChange={e => setSearchTerm(e.target.value)}
                     className="pl-10"
                   />
                 </div>
               </div>
-              
+
               <div className="space-y-2">
                 <label className="text-sm font-medium">Type</label>
                 <Select value={typeFilter} onValueChange={setTypeFilter}>
@@ -240,12 +282,14 @@ export default function Vendors() {
                     <SelectItem value="Garage">Garage</SelectItem>
                     <SelectItem value="Fuel">Fuel Station</SelectItem>
                     <SelectItem value="Shipping Line">Shipping Line</SelectItem>
-                    <SelectItem value="Customs Broker">Customs Broker</SelectItem>
+                    <SelectItem value="Customs Broker">
+                      Customs Broker
+                    </SelectItem>
                     <SelectItem value="Other">Other</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
-              
+
               <div className="space-y-2">
                 <label className="text-sm font-medium">Country</label>
                 <Select value={countryFilter} onValueChange={setCountryFilter}>
@@ -273,19 +317,25 @@ export default function Vendors() {
           </Card>
           <Card>
             <CardContent className="p-6">
-              <div className="text-2xl font-bold text-success">{vendors.filter(v => v.type === 'Garage').length}</div>
+              <div className="text-2xl font-bold text-success">
+                {vendors.filter(v => v.type === 'Garage').length}
+              </div>
               <p className="text-xs text-muted-foreground">Garages</p>
             </CardContent>
           </Card>
           <Card>
             <CardContent className="p-6">
-              <div className="text-2xl font-bold text-warning">{vendors.filter(v => v.type === 'Fuel').length}</div>
+              <div className="text-2xl font-bold text-warning">
+                {vendors.filter(v => v.type === 'Fuel').length}
+              </div>
               <p className="text-xs text-muted-foreground">Fuel Stations</p>
             </CardContent>
           </Card>
           <Card>
             <CardContent className="p-6">
-              <div className="text-2xl font-bold text-primary">{vendors.filter(v => v.country === 'OM').length}</div>
+              <div className="text-2xl font-bold text-primary">
+                {vendors.filter(v => v.country === 'OM').length}
+              </div>
               <p className="text-xs text-muted-foreground">Oman</p>
             </CardContent>
           </Card>
@@ -294,22 +344,24 @@ export default function Vendors() {
         {/* Vendors Table */}
         <Card>
           <CardHeader className="print:block print:text-center">
-            <CardTitle className="print:text-2xl print:mb-4">
+            <CardTitle className="print:mb-4 print:text-2xl">
               <span className="hidden print:block">TAKAMUL LOGISTICS</span>
-              <span className="hidden print:block text-lg print:font-normal">All Vendors Report</span>
+              <span className="hidden text-lg print:block print:font-normal">
+                All Vendors Report
+              </span>
               <span className="print:hidden">Vendors List</span>
             </CardTitle>
-            <div className="hidden print:block text-sm text-muted-foreground">
+            <div className="hidden text-sm text-muted-foreground print:block">
               Generated on: {new Date().toLocaleDateString()}
             </div>
           </CardHeader>
           <CardContent>
             {loading ? (
-              <div className="flex justify-center items-center p-8">
+              <div className="flex items-center justify-center p-8">
                 <div className="text-muted-foreground">Loading vendors...</div>
               </div>
             ) : filteredVendors.length === 0 ? (
-              <div className="flex justify-center items-center p-8">
+              <div className="flex items-center justify-center p-8">
                 <div className="text-muted-foreground">No vendors found</div>
               </div>
             ) : (
@@ -320,26 +372,44 @@ export default function Vendors() {
                       <TableHead>Name</TableHead>
                       <TableHead>Type</TableHead>
                       <TableHead>Country</TableHead>
-                      <TableHead className="hidden sm:table-cell">Contact Person</TableHead>
-                      <TableHead className="hidden md:table-cell">Phone</TableHead>
-                      <TableHead className="hidden lg:table-cell">Email</TableHead>
-                      <TableHead className="hidden md:table-cell">Created</TableHead>
+                      <TableHead className="hidden sm:table-cell">
+                        Contact Person
+                      </TableHead>
+                      <TableHead className="hidden md:table-cell">
+                        Phone
+                      </TableHead>
+                      <TableHead className="hidden lg:table-cell">
+                        Email
+                      </TableHead>
+                      <TableHead className="hidden md:table-cell">
+                        Created
+                      </TableHead>
                       <TableHead className="print:hidden">Actions</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {filteredVendors.map((vendor) => (
+                    {filteredVendors.map(vendor => (
                       <TableRow key={vendor.id}>
-                        <TableCell className="font-medium">{vendor.name}</TableCell>
+                        <TableCell className="font-medium">
+                          {vendor.name}
+                        </TableCell>
                         <TableCell>
                           <Badge variant="outline">{vendor.type}</Badge>
                         </TableCell>
                         <TableCell>
-                          <Badge variant="secondary">{getCountryName(vendor.country)}</Badge>
+                          <Badge variant="secondary">
+                            {getCountryName(vendor.country)}
+                          </Badge>
                         </TableCell>
-                        <TableCell className="hidden sm:table-cell">{vendor.contactPerson}</TableCell>
-                        <TableCell className="hidden md:table-cell">{vendor.phone}</TableCell>
-                        <TableCell className="hidden lg:table-cell">{vendor.email}</TableCell>
+                        <TableCell className="hidden sm:table-cell">
+                          {vendor.contactPerson}
+                        </TableCell>
+                        <TableCell className="hidden md:table-cell">
+                          {vendor.phone}
+                        </TableCell>
+                        <TableCell className="hidden lg:table-cell">
+                          {vendor.email}
+                        </TableCell>
                         <TableCell className="hidden md:table-cell">
                           {new Date(vendor.createdAt).toLocaleDateString()}
                         </TableCell>
@@ -359,19 +429,36 @@ export default function Vendors() {
                 </Table>
               </div>
             )}
-            
+
             {/* Print Summary */}
-            <div className="hidden print:block mt-8 pt-4 border-t">
+            <div className="mt-8 hidden border-t pt-4 print:block">
               <div className="grid grid-cols-2 gap-4 text-sm">
                 <div>
-                  <p><strong>Total Vendors:</strong> {filteredVendors.length}</p>
-                  <p><strong>Garages:</strong> {vendors.filter(v => v.type === 'Garage').length}</p>
-                  <p><strong>Fuel Stations:</strong> {vendors.filter(v => v.type === 'Fuel').length}</p>
+                  <p>
+                    <strong>Total Vendors:</strong> {filteredVendors.length}
+                  </p>
+                  <p>
+                    <strong>Garages:</strong>{' '}
+                    {vendors.filter(v => v.type === 'Garage').length}
+                  </p>
+                  <p>
+                    <strong>Fuel Stations:</strong>{' '}
+                    {vendors.filter(v => v.type === 'Fuel').length}
+                  </p>
                 </div>
                 <div>
-                  <p><strong>Oman:</strong> {vendors.filter(v => v.country === 'OM').length}</p>
-                  <p><strong>Yemen:</strong> {vendors.filter(v => v.country === 'YE').length}</p>
-                  <p><strong>Other Types:</strong> {vendors.filter(v => v.type === 'Other').length}</p>
+                  <p>
+                    <strong>Oman:</strong>{' '}
+                    {vendors.filter(v => v.country === 'OM').length}
+                  </p>
+                  <p>
+                    <strong>Yemen:</strong>{' '}
+                    {vendors.filter(v => v.country === 'YE').length}
+                  </p>
+                  <p>
+                    <strong>Other Types:</strong>{' '}
+                    {vendors.filter(v => v.type === 'Other').length}
+                  </p>
                 </div>
               </div>
             </div>
@@ -379,7 +466,10 @@ export default function Vendors() {
         </Card>
       </div>
 
-      <NewSupplierModal open={showNewSupplier} onOpenChange={setShowNewSupplier} />
+      <NewSupplierModal
+        open={showNewSupplier}
+        onOpenChange={setShowNewSupplier}
+      />
     </Layout>
   );
 }

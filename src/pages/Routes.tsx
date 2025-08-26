@@ -42,9 +42,9 @@ export default function Routes() {
     } catch (error) {
       console.error('Error fetching routes:', error);
       toast({
-        title: "Error",
-        description: "Failed to fetch routes",
-        variant: "destructive",
+        title: 'Error',
+        description: 'Failed to fetch routes',
+        variant: 'destructive',
       });
     } finally {
       setLoading(false);
@@ -57,12 +57,12 @@ export default function Routes() {
 
   const getCountryName = (code: string) => {
     const countries: Record<string, string> = {
-      'OM': 'Oman',
-      'AE': 'UAE',
-      'SA': 'Saudi Arabia',
-      'KW': 'Kuwait',
-      'QA': 'Qatar',
-      'BH': 'Bahrain',
+      OM: 'Oman',
+      AE: 'UAE',
+      SA: 'Saudi Arabia',
+      KW: 'Kuwait',
+      QA: 'Qatar',
+      BH: 'Bahrain',
     };
     return countries[code] || code;
   };
@@ -75,15 +75,15 @@ export default function Routes() {
             <h1 className="text-3xl font-bold">Routes</h1>
           </div>
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {[1, 2, 3].map((i) => (
+            {[1, 2, 3].map(i => (
               <Card key={i} className="animate-pulse">
                 <CardHeader>
-                  <div className="h-4 bg-muted rounded w-3/4"></div>
+                  <div className="h-4 w-3/4 rounded bg-muted"></div>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-2">
-                    <div className="h-3 bg-muted rounded"></div>
-                    <div className="h-3 bg-muted rounded w-2/3"></div>
+                    <div className="h-3 rounded bg-muted"></div>
+                    <div className="h-3 w-2/3 rounded bg-muted"></div>
                   </div>
                 </CardContent>
               </Card>
@@ -97,82 +97,93 @@ export default function Routes() {
   return (
     <Layout>
       <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold">Routes</h1>
-        <Button onClick={() => setShowNewRouteModal(true)}>
-          <Plus className="w-4 h-4 mr-2" />
-          Add Route
-        </Button>
-      </div>
-
-      {routes.length === 0 ? (
-        <Card>
-          <CardContent className="flex flex-col items-center justify-center py-12">
-            <Route className="w-12 h-12 text-muted-foreground mb-4" />
-            <h3 className="text-lg font-medium text-muted-foreground mb-2">No routes found</h3>
-            <p className="text-sm text-muted-foreground mb-4">Create your first route to get started</p>
-            <Button onClick={() => setShowNewRouteModal(true)}>
-              <Plus className="w-4 h-4 mr-2" />
-              Add Route
-            </Button>
-          </CardContent>
-        </Card>
-      ) : (
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {routes.map((route) => (
-            <Card key={route.id} className="hover:shadow-md transition-shadow">
-              <CardHeader className="pb-3">
-                <div className="flex items-center justify-between">
-                  <CardTitle className="text-lg">{route.name}</CardTitle>
-                  <Badge variant={route.is_active ? "default" : "secondary"}>
-                    {route.is_active ? "Active" : "Inactive"}
-                  </Badge>
-                </div>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex items-center gap-2 text-sm">
-                  <MapPin className="w-4 h-4 text-muted-foreground" />
-                  <span className="font-medium">{route.from_place}, {getCountryName(route.from_country)}</span>
-                  <span className="text-muted-foreground">→</span>
-                  <span className="font-medium">{route.to_place}, {getCountryName(route.to_country)}</span>
-                </div>
-                
-                <div className="grid grid-cols-2 gap-4 text-sm">
-                  <div className="flex items-center gap-2">
-                    <Route className="w-4 h-4 text-muted-foreground" />
-                    <span>{route.distance_km} km</span>
-                  </div>
-                  
-                  {route.estimated_duration_hours && (
-                    <div className="flex items-center gap-2">
-                      <Clock className="w-4 h-4 text-muted-foreground" />
-                      <span>{route.estimated_duration_hours}h</span>
-                    </div>
-                  )}
-                </div>
-
-                <div className="flex items-center gap-2">
-                  <Badge variant="outline" className="text-xs">
-                    {route.route_type}
-                  </Badge>
-                </div>
-
-                {route.notes && (
-                  <p className="text-xs text-muted-foreground bg-muted/50 p-2 rounded">
-                    {route.notes}
-                  </p>
-                )}
-              </CardContent>
-            </Card>
-          ))}
+        <div className="flex items-center justify-between">
+          <h1 className="text-3xl font-bold">Routes</h1>
+          <Button onClick={() => setShowNewRouteModal(true)}>
+            <Plus className="mr-2 h-4 w-4" />
+            Add Route
+          </Button>
         </div>
-      )}
 
-      <NewRouteModal
-        open={showNewRouteModal}
-        onOpenChange={setShowNewRouteModal}
-        onRouteCreated={fetchRoutes}
-      />
+        {routes.length === 0 ? (
+          <Card>
+            <CardContent className="flex flex-col items-center justify-center py-12">
+              <Route className="mb-4 h-12 w-12 text-muted-foreground" />
+              <h3 className="mb-2 text-lg font-medium text-muted-foreground">
+                No routes found
+              </h3>
+              <p className="mb-4 text-sm text-muted-foreground">
+                Create your first route to get started
+              </p>
+              <Button onClick={() => setShowNewRouteModal(true)}>
+                <Plus className="mr-2 h-4 w-4" />
+                Add Route
+              </Button>
+            </CardContent>
+          </Card>
+        ) : (
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {routes.map(route => (
+              <Card
+                key={route.id}
+                className="transition-shadow hover:shadow-md"
+              >
+                <CardHeader className="pb-3">
+                  <div className="flex items-center justify-between">
+                    <CardTitle className="text-lg">{route.name}</CardTitle>
+                    <Badge variant={route.is_active ? 'default' : 'secondary'}>
+                      {route.is_active ? 'Active' : 'Inactive'}
+                    </Badge>
+                  </div>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="flex items-center gap-2 text-sm">
+                    <MapPin className="h-4 w-4 text-muted-foreground" />
+                    <span className="font-medium">
+                      {route.from_place}, {getCountryName(route.from_country)}
+                    </span>
+                    <span className="text-muted-foreground">→</span>
+                    <span className="font-medium">
+                      {route.to_place}, {getCountryName(route.to_country)}
+                    </span>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4 text-sm">
+                    <div className="flex items-center gap-2">
+                      <Route className="h-4 w-4 text-muted-foreground" />
+                      <span>{route.distance_km} km</span>
+                    </div>
+
+                    {route.estimated_duration_hours && (
+                      <div className="flex items-center gap-2">
+                        <Clock className="h-4 w-4 text-muted-foreground" />
+                        <span>{route.estimated_duration_hours}h</span>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <Badge variant="outline" className="text-xs">
+                      {route.route_type}
+                    </Badge>
+                  </div>
+
+                  {route.notes && (
+                    <p className="rounded bg-muted/50 p-2 text-xs text-muted-foreground">
+                      {route.notes}
+                    </p>
+                  )}
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        )}
+
+        <NewRouteModal
+          open={showNewRouteModal}
+          onOpenChange={setShowNewRouteModal}
+          onRouteCreated={fetchRoutes}
+        />
       </div>
     </Layout>
   );

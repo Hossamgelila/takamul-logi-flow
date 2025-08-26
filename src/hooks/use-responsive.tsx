@@ -40,7 +40,7 @@ export function useResponsive(): UseResponsiveReturn {
 
   const getCurrentBreakpoint = (): Breakpoint => {
     const { width } = dimensions;
-    
+
     if (width >= breakpoints['2xl']) return '2xl';
     if (width >= breakpoints.xl) return 'xl';
     if (width >= breakpoints.lg) return 'lg';
@@ -50,10 +50,11 @@ export function useResponsive(): UseResponsiveReturn {
   };
 
   const currentBreakpoint = getCurrentBreakpoint();
-  
+
   return {
     isMobile: dimensions.width < breakpoints.md,
-    isTablet: dimensions.width >= breakpoints.md && dimensions.width < breakpoints.lg,
+    isTablet:
+      dimensions.width >= breakpoints.md && dimensions.width < breakpoints.lg,
     isDesktop: dimensions.width >= breakpoints.lg,
     currentBreakpoint,
     width: dimensions.width,

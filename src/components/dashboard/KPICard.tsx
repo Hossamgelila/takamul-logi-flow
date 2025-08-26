@@ -35,7 +35,7 @@ export default function KPICard({
 
   const getTrendIcon = () => {
     if (trend === undefined) return null;
-    
+
     if (trend > 0) return <TrendingUp className="h-4 w-4 text-success" />;
     if (trend < 0) return <TrendingDown className="h-4 w-4 text-destructive" />;
     return <Minus className="h-4 w-4 text-muted-foreground" />;
@@ -49,7 +49,13 @@ export default function KPICard({
   };
 
   return (
-    <Card className={cn('transition-all hover:shadow-md', typeColors[type], className)}>
+    <Card
+      className={cn(
+        'transition-all hover:shadow-md',
+        typeColors[type],
+        className
+      )}
+    >
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle className="text-sm font-medium text-muted-foreground">
           {title}
@@ -61,13 +67,17 @@ export default function KPICard({
           {type === 'fleet' ? `${value}%` : formatCurrency(value, currency)}
         </div>
         {trend !== undefined && (
-          <p className={cn('text-xs mt-1', getTrendColor())}>
-            {trend > 0 ? '+' : ''}{trend.toFixed(1)}% from last period
+          <p className={cn('mt-1 text-xs', getTrendColor())}>
+            {trend > 0 ? '+' : ''}
+            {trend.toFixed(1)}% from last period
           </p>
         )}
         {previousValue && (
-          <p className="text-xs text-muted-foreground mt-1">
-            Previous: {type === 'fleet' ? `${previousValue}%` : formatCurrency(previousValue, currency)}
+          <p className="mt-1 text-xs text-muted-foreground">
+            Previous:{' '}
+            {type === 'fleet'
+              ? `${previousValue}%`
+              : formatCurrency(previousValue, currency)}
           </p>
         )}
       </CardContent>

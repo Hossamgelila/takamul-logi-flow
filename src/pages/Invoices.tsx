@@ -3,11 +3,44 @@ import Layout from '@/components/Layout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
-import { Printer, Search, Filter, Plus, Eye, Edit, Download, FileText, Trash2 } from 'lucide-react';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
+import {
+  Printer,
+  Search,
+  Filter,
+  Plus,
+  Eye,
+  Edit,
+  Download,
+  FileText,
+  Trash2,
+} from 'lucide-react';
 import NewInvoiceModal from '@/components/modals/NewInvoiceModal';
 import EditInvoiceModal from '@/components/modals/EditInvoiceModal';
 import { supabase } from '@/integrations/supabase/client';
@@ -38,7 +71,9 @@ export default function Invoices() {
   const { toast } = useToast();
   const [showNewInvoice, setShowNewInvoice] = useState(false);
   const [showEditInvoice, setShowEditInvoice] = useState(false);
-  const [selectedInvoiceId, setSelectedInvoiceId] = useState<string | undefined>();
+  const [selectedInvoiceId, setSelectedInvoiceId] = useState<
+    string | undefined
+  >();
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
   const [currencyFilter, setCurrencyFilter] = useState('all');
@@ -50,19 +85,21 @@ export default function Invoices() {
     try {
       const { data, error } = await supabase
         .from('invoices')
-        .select(`
+        .select(
+          `
           *,
           customers:customer_id(name),
           invoice_items(*)
-        `)
+        `
+        )
         .eq('is_deleted', false)
         .order('issue_date', { ascending: false });
 
       if (error) {
         toast({
-          title: "Error fetching invoices",
+          title: 'Error fetching invoices',
           description: error.message,
-          variant: "destructive",
+          variant: 'destructive',
         });
         return;
       }
@@ -72,10 +109,18 @@ export default function Invoices() {
         const items = invoice.invoice_items || [];
         const revenue = items
           .filter((item: any) => !item.is_pass_through)
-          .reduce((sum: number, item: any) => sum + (parseFloat(item.amount_foreign) || 0), 0);
+          .reduce(
+            (sum: number, item: any) =>
+              sum + (parseFloat(item.amount_foreign) || 0),
+            0
+          );
         const passThrough = items
           .filter((item: any) => item.is_pass_through)
-          .reduce((sum: number, item: any) => sum + (parseFloat(item.amount_foreign) || 0), 0);
+          .reduce(
+            (sum: number, item: any) =>
+              sum + (parseFloat(item.amount_foreign) || 0),
+            0
+          );
 
         return {
           id: invoice.invoice_no,
@@ -92,8 +137,8 @@ export default function Invoices() {
             qty: parseFloat(item.qty) || 1,
             unitPrice: parseFloat(item.unit_price) || 0,
             amount: parseFloat(item.amount_foreign) || 0,
-            isPassThrough: item.is_pass_through || false
-          }))
+            isPassThrough: item.is_pass_through || false,
+          })),
         };
       });
 
@@ -101,9 +146,9 @@ export default function Invoices() {
     } catch (error) {
       console.error('Error fetching invoices:', error);
       toast({
-        title: "Error",
-        description: "Failed to load invoices",
-        variant: "destructive",
+        title: 'Error',
+        description: 'Failed to load invoices',
+        variant: 'destructive',
       });
     } finally {
       setLoading(false);
@@ -114,7 +159,7 @@ export default function Invoices() {
   const handleClearAllInvoices = async () => {
     try {
       setLoading(true);
-      
+
       // Soft delete all invoices
       const { error } = await supabase
         .from('invoices')
@@ -127,17 +172,17 @@ export default function Invoices() {
 
       // Clear the local state
       setInvoices([]);
-      
+
       toast({
-        title: "Success",
-        description: "All invoices have been cleared successfully",
+        title: 'Success',
+        description: 'All invoices have been cleared successfully',
       });
     } catch (error) {
       console.error('Error clearing invoices:', error);
       toast({
-        title: "Error",
-        description: "Failed to clear invoices. Please try again.",
-        variant: "destructive",
+        title: 'Error',
+        description: 'Failed to clear invoices. Please try again.',
+        variant: 'destructive',
       });
     } finally {
       setLoading(false);
@@ -156,9 +201,9 @@ export default function Invoices() {
         {
           event: '*',
           schema: 'public',
-          table: 'invoices'
+          table: 'invoices',
         },
-        (payload) => {
+        payload => {
           console.log('Invoice change detected:', payload);
           fetchInvoices(); // Refetch data when changes occur
         }
@@ -171,21 +216,29 @@ export default function Invoices() {
   }, []);
 
   const filteredInvoices = invoices.filter(invoice => {
-    const matchesSearch = invoice.customer.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         invoice.id.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesStatus = statusFilter === 'all' || invoice.status === statusFilter;
-    const matchesCurrency = currencyFilter === 'all' || invoice.currency === currencyFilter;
-    
+    const matchesSearch =
+      invoice.customer.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      invoice.id.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesStatus =
+      statusFilter === 'all' || invoice.status === statusFilter;
+    const matchesCurrency =
+      currencyFilter === 'all' || invoice.currency === currencyFilter;
+
     return matchesSearch && matchesStatus && matchesCurrency;
   });
 
   const getStatusBadgeVariant = (status: string) => {
     switch (status) {
-      case 'Paid': return 'default';
-      case 'Issued': return 'secondary';
-      case 'Overdue': return 'destructive';
-      case 'Draft': return 'outline';
-      default: return 'outline';
+      case 'Paid':
+        return 'default';
+      case 'Issued':
+        return 'secondary';
+      case 'Overdue':
+        return 'destructive';
+      case 'Draft':
+        return 'outline';
+      default:
+        return 'outline';
     }
   };
 
@@ -195,13 +248,17 @@ export default function Invoices() {
 
   const totalRevenue = filteredInvoices.reduce((sum, invoice) => {
     // Convert to OMR if needed (simplified conversion)
-    const revenueInOMR = invoice.currency === 'AED' ? invoice.revenue * 0.1 : invoice.revenue;
+    const revenueInOMR =
+      invoice.currency === 'AED' ? invoice.revenue * 0.1 : invoice.revenue;
     return sum + revenueInOMR;
   }, 0);
 
   const totalPassThrough = filteredInvoices.reduce((sum, invoice) => {
     // Convert to OMR if needed (simplified conversion)
-    const passThroughInOMR = invoice.currency === 'AED' ? invoice.passThrough * 0.1 : invoice.passThrough;
+    const passThroughInOMR =
+      invoice.currency === 'AED'
+        ? invoice.passThrough * 0.1
+        : invoice.passThrough;
     return sum + passThroughInOMR;
   }, 0);
 
@@ -211,20 +268,28 @@ export default function Invoices() {
     <Layout>
       <div className="content-spacing">
         {/* Header */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 print:hidden">
+        <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center print:hidden">
           <div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-foreground">All Invoices</h1>
-            <p className="text-muted-foreground">Manage and track all customer invoices</p>
+            <h1 className="text-2xl font-bold text-foreground sm:text-3xl">
+              All Invoices
+            </h1>
+            <p className="text-muted-foreground">
+              Manage and track all customer invoices
+            </p>
           </div>
           <div className="flex gap-2">
             <Button onClick={handlePrint} variant="outline" size="sm">
-              <Printer className="h-4 w-4 mr-2" />
+              <Printer className="mr-2 h-4 w-4" />
               Print A4
             </Button>
             <AlertDialog>
               <AlertDialogTrigger asChild>
-                <Button variant="destructive" size="sm" disabled={invoices.length === 0}>
-                  <Trash2 className="h-4 w-4 mr-2" />
+                <Button
+                  variant="destructive"
+                  size="sm"
+                  disabled={invoices.length === 0}
+                >
+                  <Trash2 className="mr-2 h-4 w-4" />
                   Clear All
                 </Button>
               </AlertDialogTrigger>
@@ -232,13 +297,13 @@ export default function Invoices() {
                 <AlertDialogHeader>
                   <AlertDialogTitle>Clear All Invoices</AlertDialogTitle>
                   <AlertDialogDescription>
-                    This action will permanently delete all invoices. This cannot be undone.
-                    Are you sure you want to continue?
+                    This action will permanently delete all invoices. This
+                    cannot be undone. Are you sure you want to continue?
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                   <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction 
+                  <AlertDialogAction
                     onClick={handleClearAllInvoices}
                     className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
                   >
@@ -248,7 +313,7 @@ export default function Invoices() {
               </AlertDialogContent>
             </AlertDialog>
             <Button onClick={() => setShowNewInvoice(true)} size="sm">
-              <Plus className="h-4 w-4 mr-2" />
+              <Plus className="mr-2 h-4 w-4" />
               New Invoice
             </Button>
           </div>
@@ -267,16 +332,16 @@ export default function Invoices() {
               <div className="space-y-2">
                 <label className="text-sm font-medium">Search</label>
                 <div className="relative">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-muted-foreground" />
                   <Input
                     placeholder="Search by customer or invoice ID..."
                     value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
+                    onChange={e => setSearchTerm(e.target.value)}
                     className="pl-10"
                   />
                 </div>
               </div>
-              
+
               <div className="space-y-2">
                 <label className="text-sm font-medium">Status</label>
                 <Select value={statusFilter} onValueChange={setStatusFilter}>
@@ -292,10 +357,13 @@ export default function Invoices() {
                   </SelectContent>
                 </Select>
               </div>
-              
+
               <div className="space-y-2">
                 <label className="text-sm font-medium">Currency</label>
-                <Select value={currencyFilter} onValueChange={setCurrencyFilter}>
+                <Select
+                  value={currencyFilter}
+                  onValueChange={setCurrencyFilter}
+                >
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>
@@ -314,25 +382,33 @@ export default function Invoices() {
         <div className="responsive-grid-4">
           <Card>
             <CardContent className="p-6">
-              <div className="text-2xl font-bold">{filteredInvoices.length}</div>
+              <div className="text-2xl font-bold">
+                {filteredInvoices.length}
+              </div>
               <p className="text-xs text-muted-foreground">Total Invoices</p>
             </CardContent>
           </Card>
           <Card>
             <CardContent className="p-6">
-              <div className="text-2xl font-bold text-success">{totalRevenue.toFixed(2)} OMR</div>
+              <div className="text-2xl font-bold text-success">
+                {totalRevenue.toFixed(2)} OMR
+              </div>
               <p className="text-xs text-muted-foreground">Total Revenue</p>
             </CardContent>
           </Card>
           <Card>
             <CardContent className="p-6">
-              <div className="text-2xl font-bold text-warning">{totalPassThrough.toFixed(2)} OMR</div>
+              <div className="text-2xl font-bold text-warning">
+                {totalPassThrough.toFixed(2)} OMR
+              </div>
               <p className="text-xs text-muted-foreground">Pass-Through</p>
             </CardContent>
           </Card>
           <Card>
             <CardContent className="p-6">
-              <div className="text-2xl font-bold text-primary">{totalAmount.toFixed(2)} OMR</div>
+              <div className="text-2xl font-bold text-primary">
+                {totalAmount.toFixed(2)} OMR
+              </div>
               <p className="text-xs text-muted-foreground">Grand Total</p>
             </CardContent>
           </Card>
@@ -341,22 +417,24 @@ export default function Invoices() {
         {/* Invoices Table */}
         <Card>
           <CardHeader className="print:block print:text-center">
-            <CardTitle className="print:text-2xl print:mb-4">
+            <CardTitle className="print:mb-4 print:text-2xl">
               <span className="hidden print:block">TAKAMUL LOGISTICS</span>
-              <span className="hidden print:block text-lg print:font-normal">All Invoices Report</span>
+              <span className="hidden text-lg print:block print:font-normal">
+                All Invoices Report
+              </span>
               <span className="print:hidden">Invoices List</span>
             </CardTitle>
-            <div className="hidden print:block text-sm text-muted-foreground">
+            <div className="hidden text-sm text-muted-foreground print:block">
               Generated on: {new Date().toLocaleDateString()}
             </div>
           </CardHeader>
           <CardContent>
             {loading ? (
-              <div className="flex justify-center items-center p-8">
+              <div className="flex items-center justify-center p-8">
                 <div className="text-muted-foreground">Loading invoices...</div>
               </div>
             ) : filteredInvoices.length === 0 ? (
-              <div className="flex justify-center items-center p-8">
+              <div className="flex items-center justify-center p-8">
                 <div className="text-muted-foreground">No invoices found</div>
               </div>
             ) : (
@@ -368,83 +446,118 @@ export default function Invoices() {
                       <TableHead>Date</TableHead>
                       <TableHead>Customer</TableHead>
                       <TableHead>Revenue</TableHead>
-                      <TableHead className="hidden sm:table-cell">Pass-Through</TableHead>
+                      <TableHead className="hidden sm:table-cell">
+                        Pass-Through
+                      </TableHead>
                       <TableHead>Total</TableHead>
-                      <TableHead className="hidden md:table-cell">Due Date</TableHead>
+                      <TableHead className="hidden md:table-cell">
+                        Due Date
+                      </TableHead>
                       <TableHead>Status</TableHead>
                       <TableHead className="print:hidden">Actions</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {filteredInvoices.map((invoice) => (
-                    <TableRow key={invoice.id}>
-                      <TableCell className="font-medium">{invoice.id}</TableCell>
-                      <TableCell>{new Date(invoice.date).toLocaleDateString()}</TableCell>
-                      <TableCell>{invoice.customer}</TableCell>
-                      <TableCell>
-                        <span className="font-medium text-success">
-                          {invoice.revenue.toFixed(2)} {invoice.currency}
-                        </span>
-                      </TableCell>
-                      <TableCell className="hidden sm:table-cell">
-                        <span className="text-warning">
-                          {invoice.passThrough.toFixed(2)} {invoice.currency}
-                        </span>
-                      </TableCell>
-                      <TableCell>
-                        <span className="font-bold">
-                          {invoice.total.toFixed(2)} {invoice.currency}
-                        </span>
-                      </TableCell>
-                      <TableCell className="hidden md:table-cell">
-                        {new Date(invoice.dueDate).toLocaleDateString()}
-                      </TableCell>
-                      <TableCell>
-                        <Badge variant={getStatusBadgeVariant(invoice.status)}>
-                          {invoice.status}
-                        </Badge>
-                      </TableCell>
-                      <TableCell className="print:hidden">
-                        <div className="flex gap-1">
-                          <Button variant="ghost" size="sm">
-                            <Eye className="h-4 w-4" />
-                          </Button>
-                          <Button 
-                            variant="ghost" 
-                            size="sm"
-                            onClick={() => {
-                              setSelectedInvoiceId(invoice.id);
-                              setShowEditInvoice(true);
-                            }}
+                    {filteredInvoices.map(invoice => (
+                      <TableRow key={invoice.id}>
+                        <TableCell className="font-medium">
+                          {invoice.id}
+                        </TableCell>
+                        <TableCell>
+                          {new Date(invoice.date).toLocaleDateString()}
+                        </TableCell>
+                        <TableCell>{invoice.customer}</TableCell>
+                        <TableCell>
+                          <span className="font-medium text-success">
+                            {invoice.revenue.toFixed(2)} {invoice.currency}
+                          </span>
+                        </TableCell>
+                        <TableCell className="hidden sm:table-cell">
+                          <span className="text-warning">
+                            {invoice.passThrough.toFixed(2)} {invoice.currency}
+                          </span>
+                        </TableCell>
+                        <TableCell>
+                          <span className="font-bold">
+                            {invoice.total.toFixed(2)} {invoice.currency}
+                          </span>
+                        </TableCell>
+                        <TableCell className="hidden md:table-cell">
+                          {new Date(invoice.dueDate).toLocaleDateString()}
+                        </TableCell>
+                        <TableCell>
+                          <Badge
+                            variant={getStatusBadgeVariant(invoice.status)}
                           >
-                            <Edit className="h-4 w-4" />
-                          </Button>
-                          <Button variant="ghost" size="sm">
-                            <Download className="h-4 w-4" />
-                          </Button>
-                        </div>
-                      </TableCell>
-                    </TableRow>
+                            {invoice.status}
+                          </Badge>
+                        </TableCell>
+                        <TableCell className="print:hidden">
+                          <div className="flex gap-1">
+                            <Button variant="ghost" size="sm">
+                              <Eye className="h-4 w-4" />
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => {
+                                setSelectedInvoiceId(invoice.id);
+                                setShowEditInvoice(true);
+                              }}
+                            >
+                              <Edit className="h-4 w-4" />
+                            </Button>
+                            <Button variant="ghost" size="sm">
+                              <Download className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        </TableCell>
+                      </TableRow>
                     ))}
                   </TableBody>
                 </Table>
               </div>
             )}
-            
+
             {/* Print Summary */}
-            <div className="hidden print:block mt-8 pt-4 border-t">
+            <div className="mt-8 hidden border-t pt-4 print:block">
               <div className="grid grid-cols-2 gap-4 text-sm">
                 <div>
-                  <p><strong>Total Invoices:</strong> {filteredInvoices.length}</p>
-                  <p><strong>Total Revenue:</strong> {totalRevenue.toFixed(2)} OMR</p>
-                  <p><strong>Total Pass-Through:</strong> {totalPassThrough.toFixed(2)} OMR</p>
-                  <p><strong>Grand Total:</strong> {totalAmount.toFixed(2)} OMR</p>
+                  <p>
+                    <strong>Total Invoices:</strong> {filteredInvoices.length}
+                  </p>
+                  <p>
+                    <strong>Total Revenue:</strong> {totalRevenue.toFixed(2)}{' '}
+                    OMR
+                  </p>
+                  <p>
+                    <strong>Total Pass-Through:</strong>{' '}
+                    {totalPassThrough.toFixed(2)} OMR
+                  </p>
+                  <p>
+                    <strong>Grand Total:</strong> {totalAmount.toFixed(2)} OMR
+                  </p>
                 </div>
                 <div>
-                  <p><strong>Draft:</strong> {filteredInvoices.filter(i => i.status === 'Draft').length}</p>
-                  <p><strong>Issued:</strong> {filteredInvoices.filter(i => i.status === 'Issued').length}</p>
-                  <p><strong>Paid:</strong> {filteredInvoices.filter(i => i.status === 'Paid').length}</p>
-                  <p><strong>Overdue:</strong> {filteredInvoices.filter(i => i.status === 'Overdue').length}</p>
+                  <p>
+                    <strong>Draft:</strong>{' '}
+                    {filteredInvoices.filter(i => i.status === 'Draft').length}
+                  </p>
+                  <p>
+                    <strong>Issued:</strong>{' '}
+                    {filteredInvoices.filter(i => i.status === 'Issued').length}
+                  </p>
+                  <p>
+                    <strong>Paid:</strong>{' '}
+                    {filteredInvoices.filter(i => i.status === 'Paid').length}
+                  </p>
+                  <p>
+                    <strong>Overdue:</strong>{' '}
+                    {
+                      filteredInvoices.filter(i => i.status === 'Overdue')
+                        .length
+                    }
+                  </p>
                 </div>
               </div>
             </div>
@@ -453,8 +566,8 @@ export default function Invoices() {
       </div>
 
       <NewInvoiceModal open={showNewInvoice} onOpenChange={setShowNewInvoice} />
-      <EditInvoiceModal 
-        open={showEditInvoice} 
+      <EditInvoiceModal
+        open={showEditInvoice}
         onOpenChange={setShowEditInvoice}
         invoiceId={selectedInvoiceId}
         onSuccess={fetchInvoices}

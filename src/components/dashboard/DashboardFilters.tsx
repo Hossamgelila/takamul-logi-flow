@@ -1,6 +1,12 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Calendar, Filter } from 'lucide-react';
@@ -30,26 +36,34 @@ export default function DashboardFilters({
             <Filter className="h-4 w-4" />
             Filters
           </div>
-          
+
           {/* Date Range */}
           <div className="grid gap-2">
-            <Label htmlFor="date-from" className="text-xs">From</Label>
+            <Label htmlFor="date-from" className="text-xs">
+              From
+            </Label>
             <Input
               id="date-from"
               type="date"
               value={dateRange.from}
-              onChange={(e) => onDateRangeChange({ ...dateRange, from: e.target.value })}
+              onChange={e =>
+                onDateRangeChange({ ...dateRange, from: e.target.value })
+              }
               className="w-36"
             />
           </div>
-          
+
           <div className="grid gap-2">
-            <Label htmlFor="date-to" className="text-xs">To</Label>
+            <Label htmlFor="date-to" className="text-xs">
+              To
+            </Label>
             <Input
               id="date-to"
               type="date"
               value={dateRange.to}
-              onChange={(e) => onDateRangeChange({ ...dateRange, to: e.target.value })}
+              onChange={e =>
+                onDateRangeChange({ ...dateRange, to: e.target.value })
+              }
               className="w-36"
             />
           </div>
@@ -84,10 +98,10 @@ export default function DashboardFilters({
           </div>
 
           <Button variant="outline" size="sm">
-            <Calendar className="h-4 w-4 mr-2" />
+            <Calendar className="mr-2 h-4 w-4" />
             This Month
           </Button>
-          
+
           <Button variant="outline" size="sm">
             Last 30 Days
           </Button>

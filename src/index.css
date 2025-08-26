@@ -21,7 +21,7 @@ All colors MUST be HSL.
     --primary: 142 76% 36%;
     --primary-foreground: 0 0% 98%;
     --primary-hover: 142 76% 32%;
-    
+
     --secondary: 210 40% 96.1%;
     --secondary-foreground: 222.2 47.4% 11.2%;
 
@@ -67,7 +67,7 @@ All colors MUST be HSL.
     --spacing-mobile: 1rem;
     --spacing-tablet: 1.5rem;
     --spacing-desktop: 2rem;
-    
+
     --header-height-mobile: 3.5rem;
     --header-height-desktop: 4rem;
   }
@@ -142,7 +142,7 @@ All colors MUST be HSL.
 
   /* Container utilities for consistent spacing */
   .container-responsive {
-    @apply w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
   }
 
   .content-spacing {
@@ -168,7 +168,7 @@ All colors MUST be HSL.
 
   /* Modal and dialog responsive */
   .modal-responsive {
-    @apply w-[95vw] max-w-lg sm:max-w-xl md:max-w-2xl lg:max-w-4xl max-h-[90vh];
+    @apply max-h-[90vh] w-[95vw] max-w-lg sm:max-w-xl md:max-w-2xl lg:max-w-4xl;
   }
 
   /* Form responsive utilities */
@@ -177,7 +177,7 @@ All colors MUST be HSL.
   }
 
   .form-grid-responsive {
-    @apply grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2;
+    @apply grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6;
   }
 }
 
@@ -243,7 +243,8 @@ All colors MUST be HSL.
     page-break-after: auto;
   }
 
-  th, td {
+  th,
+  td {
     border: 1px solid #ddd !important;
     padding: 8px !important;
     font-size: 10pt !important;
